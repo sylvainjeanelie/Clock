@@ -1,40 +1,53 @@
-//Clock function & variables
+// Select the Sec Min and Hour elements
+const secondsHand = document.querySelector('.second-hand');
+const minutesHand = document.querySelector('.min-hand');
+const hoursHand = document.querySelector('.hour-hand');
 
-const secondHand = document.querySelector('.second-hand');
-const minHand = document.querySelector('.min-hand');
-const hourHand = document.querySelector('.hour-hand')
-
+// Save the original transition
+const secOriginalTransition = secondsHand.style.transition;
+const minOriginalTransition = minutesHand.style.transition;
+const hourOriginalTransition = hoursHand.style.transition;
 
 function setDate(){
     const now = new Date();
     const seconds = now.getSeconds();
-    const secondsDegrees =((seconds / 60) * 360 + 90);
-    secondHand.style.transform = `rotate(${secondsDegrees}deg)`; 
+    const secondsDegrees = ((seconds / 60) * 360 + 90);
+    secondsHand.style.transform = `rotate(${secondsDegrees}deg)`;
+
+    const minutes = now.getMinutes();
+    const minutesDegrees = ((minutes / 60) * 360 + 90);
+    minutesHand.style.transform = `rotate(${minutesDegrees}deg)`;
     
-        if(secondsDegrees === 90){
-        const originalTransition = secondHand.style.transition;
-        secondHand.style.transition = 'none';
+    const hours = now.getHours();
+    const hoursDegrees = ((hours / 12) * 360 + 90);
+    minutesHand.style.transform = `rotate(${hoursDegrees}deg)`;
 
-        setTimeout (() =>{
-            secondHand.style.transition = originalTransition;
-            }, 1000);
-    
-        } 
-        
+    // Remove & re-insert the transition
 
-    
+    if(secondsDegrees === 90){
+        secondsHand.style.transition ='none';
 
+        setTimeout(()=>{
+            secondsHand.style.transition = secOriginalTransition;
+        }, 900);
+    }
 
-    const mins = now.getMinutes();
-    const minsDegrees = ((mins / 60) * 360 + 90);
-    minHand.style.transform = `rotate(${minsDegrees}deg)`;
+    if(minutesDegrees === 90){
+        minutesHand.style.transition ='none';
 
-    const hour = now.getHours();
-    const hourDegrees = ((hour / 12) * 360 + 90);
-    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+        setTimeout(()=>{
+            minutesHand.style.transition = minOriginalTransition;
+        }, 900);
+    }
 
-    // console.log(hour);
+    if(hoursDegrees === 90){
+        hoursHand.style.transition ='none';
 
-    
+        setTimeout(()=>{
+            hoursHand.style.transition = hourOriginalTransition;
+        }, 900);
+    }
 }
 setInterval(setDate, 1000);
+
+
